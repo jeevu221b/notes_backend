@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'honeybadger.contrib.DjangoHoneybadgerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,8 +52,22 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'api.middleware.TestMiddleware'
+    'api.middleware.TestMiddleware',
+
 ]
+
+HONEYBADGER = {
+    'API_KEY': 'hbp_aKpVsPH4u0EAoS681F14UtgfucQ38N0zdXby'
+}
+
+
+HONEYBADGER = {
+    'HONEYBADGER_FORCE_SYNC': True
+}
+
+HONEYBADGER = {
+    'HONEYBADGER_FORCE_REPORT_DATA': True
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 

@@ -12,51 +12,24 @@ class TestMiddleware:
         from .serializers import TokenSerializer
         from .tokenStatus import is_expired, validToken
         from django.shortcuts import redirect
-        from .logs import error, HttpError
+        from .logs import error, HttpError, key, auth_route
 
-        key = "SECRET_KEY"
-
-        auth_route = [
-            '/api/createNotes/', '/api/getNotes/', '/api/logout/']
         url = request.path
-        if url in auth_route:
+        if url in auth_route or url.startswith('/api/getnotes/'):
             header = request.META.get('HTTP_AUTHORIZATION')
             if header:
                 res = validToken(header, key)
-                # print("You're already logged in!")
-
-                # return HttpResponse(res)
-                # queryToken = Token.objects.filter(token=header)
-                # if queryToken:
-                #     t = queryToken.first()
-                #     serialized = TokenSerializer(t)
-                #     token = serialized.data
-                #     # print("Punkstar", token)
-                #     uid = is_expired(token["token"], key)
-                #     if token["isActive"] and uid is not None:
-                #         print("Token is valid")
-                #     else:
-                #         return HttpError(error["INVALD_TOKEN"])
-                # else:
-                #     return HttpError(error["INVALD_TOKEN"])
-
             else:
                 return HttpError(error["MISSING_AUTH"])
 
         else:
             print("Not among the specified route!")
-            print("Before response")
             header = request.META.get('HTTP_AUTHORIZATION')
             if header:
                 res = validToken(header, key)
-                # print("You're already logged in!")
                 return HttpResponse(res)
-            # else:
-            #     return HttpError(error["MISSING_AUTH"])
 
         response = self.get_response(request)
-        # print("After response")
         # Code to be executed for each request/response after
         # the view is called.
-
         return response

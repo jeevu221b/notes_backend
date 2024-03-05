@@ -1,4 +1,4 @@
-from .logs import error, HttpError, sucess
+from .logs import error, HttpError, sucess, key
 from django.shortcuts import redirect
 from django.http import HttpResponse, JsonResponse
 import jwt
@@ -23,13 +23,11 @@ def is_expired(token, key):
 
 
 def decodeToken(header):
-    key = "SECRET_KEY"
     queryToken = Token.objects.filter(token=header)
     if queryToken:
         t = queryToken.first()
         serialized = TokenSerializer(t)
         token = serialized.data
-        # print("Punkstar", token)
         uid = is_expired(token["token"], key)
         if token["isActive"] and uid is not None:
             return uid
@@ -65,4 +63,3 @@ def validToken(header, key):
             return error["INVALD_TOKEN"]
     else:
         return error["INVALD_TOKEN"]
-

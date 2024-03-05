@@ -17,4 +17,4 @@ class TokenSerializer(serializers.ModelSerializer):
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
-        fields = ["note"]
+        fields = ["note", "note_id"]
