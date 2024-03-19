@@ -10,6 +10,8 @@ from .tokenStatus import is_expired, decodeToken, validData
 from .logs import error, sucess, HttpError, key
 from rest_framework.decorators import api_view
 import datetime
+from .recommender import get_recommendation
+
 
 @api_view(["GET"])
 def apiHome(request):
@@ -187,3 +189,17 @@ def deleteNotes(request):
                 return HttpError(error["INVALD_TOKEN"])
     else:
         return HttpError(error["INVALID_INPUT"])
+
+
+@api_view(["POST"])
+def getRecommendation(request):
+    try:
+        movie = json.loads(request.body)
+        recommendation = get_recommendation(movie["movie"])
+    except:
+        return JsonResponse({"message": "Enter Valid Data"}, status=401)
+    if recommendation != "":
+        return JsonResponse({"recommendations": recommendation}, status=201)
+    else:
+        return JsonResponse({"message": "Movie not in the DB"}, status=401)
+    # return HttpResponse("This is the recommendation Page")

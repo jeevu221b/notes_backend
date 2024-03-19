@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import apiHome, signup, login, createNotes, getNotes, logout, editNotes, deleteNotes
+from .views import apiHome, signup, login, createNotes, getNotes, logout, editNotes, deleteNotes, getRecommendation
 
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('getnotes/', getNotes),
     path('getnotes/<str:id>/', getNotes),
     path('editnotes/', editNotes),
-    path('deletenotes/', deleteNotes)
+    path('deletenotes/', deleteNotes),
+    path('getrecommendation/', getRecommendation)
 ]
